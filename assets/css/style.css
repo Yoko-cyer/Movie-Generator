@@ -5,5 +5,37 @@
 }
 body {
   background-color: var(--prime-color);
+  font-family: 'Fira Sans', sans-serif;
+}
 
+#header-title {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 2rem;
+}
+
+.spacing {
+  padding: 1rem;
+}
+
+h2, p {
+  text-align: center;
+  margin-top: 1rem;
+
+}
+
+/* hr {
+  height: 3px;
+  background-color: var(--third-color);
+  border: none;
+} */
+
+#search-bar {
+  text-align: center;
+  border-color: var(--second-color);
+}
+
+.button {
+  border-color: var(--second-color);
+  background-color: var(--second-color);
 }

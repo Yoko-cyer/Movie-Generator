@@ -3,3 +3,7 @@
   --second-color: #8AE916;
   --third-color: #E97516;
 }
+body {
+  background-color: var(--prime-color);
+
+}

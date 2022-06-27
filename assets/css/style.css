@@ -10,7 +10,7 @@ body {
 
 #header-title {
   text-align: center;
-  margin-top: 1rem;
+  padding: 1rem;
   font-size: 2rem;
 }
 
@@ -21,7 +21,7 @@ body {
 h2, p {
   text-align: center;
   margin-top: 1rem;
-
+  margin-bottom: 2rem;
 }
 
 /* hr {
@@ -38,4 +38,18 @@ h2, p {
 .button {
   border-color: var(--second-color);
   background-color: var(--second-color);
+}
+
+.card {
+  box-shadow: 20px 15px 20px rgb(127, 134, 88);
+}
+
+.card:hover {
+  
+}
+
+footer {
+  padding: 1rem;
+  background-color: var(--third-color);
+  color: white;
 }

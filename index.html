@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet">
-    <title>Movie Night</title>
+    <title>Random Movie Selector</title>
 </head>
 <body>
     <!-- Header -->
@@ -41,9 +41,9 @@
       
 
         <!-- Card template for randomly generated movies -->
-        <section class="columns column-gap">
+        <section class="is-justify-content-space-around columns">
 
-            <div class="card column is-4">
+            <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
                     <img id="movie-img" src="" alt="movie image">
@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="card column is-4">
+            <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
                     <img id="movie-img" src="" alt="movie image">
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <div class="card column is-4">
+            <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
                     <img id="movie-img" src="" alt="movie image">
@@ -117,77 +117,73 @@
 
         </section>
 
-              
 
-
-        
-
-           
-          
-
-
-        <h2>You can find movie on:</h2>>
+        <h2>You can find movie on:</h2>
         <!-- <-- Card template for movie provider of choice -->
         
-        <div class="card column is-3">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img id="movie-img" src="" alt="movie image">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="media">
-                
-                <div class="media-content">
-                  <p class="title is-4">Amazon Prime</p>
-                </div>
-              </div>
-          
-              <div class="content">
-                <p>Rating: <span id="ratig"></span></p>
-                <p>Released year: <span id="released-year"></span></p>
-                <p>Main Actors: <span id="main-actors"></span></p>
-                <a href="#">#css</a> <a href="#">#responsive</a>
-                <br>
-              </div>
-            </div>
-        </div>
-        
-        <h6>Amazon Prime</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-        
-        <h6>Netflix</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-        <h6>Apple i-tunes</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-        <section>
+        <section class="is-justify-content-space-around columns">
 
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Amazon Prime</p>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Netflix</p>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Apple TV</p>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
         </section>
+        
     
     </main>
+    <br>
+    <br>
 
 
     <!-- Footer -->
     <footer>
-
+        <p>Created by Team Alice, Tim and Yoko. ©2022</p>
     </footer>
 
     <script src="./assets/js/app.js"></script>

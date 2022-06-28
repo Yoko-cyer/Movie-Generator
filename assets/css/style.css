@@ -15,7 +15,7 @@ body {
 }
 
 .spacing {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 h2, p {
@@ -42,6 +42,10 @@ h2, p {
   margin-top: 1rem;
   transition: all 0.5s ease-out
 }
+#source-button, #favourite-button {
+  background-color: var(--second-color);
+  color: white;
+}
 
 .button:hover {
   box-shadow: 20px 15px 20px rgb(127, 134, 88);
@@ -61,11 +65,6 @@ h2, p {
 .card:hover {
   box-shadow: 20px 15px 20px rgb(127, 134, 88);
 
-}
-
-#source-button, #favourite-button {
-  background-color: var(--second-color);
-  color: white;
 }
 
 footer {

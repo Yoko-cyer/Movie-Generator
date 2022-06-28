@@ -35,7 +35,7 @@ h2, p {
   border-color: var(--second-color);
 }
 
-.button {
+#generator-button {
   border-color: var(--second-color);
   background-color: var(--second-color);
   color: black;
@@ -61,6 +61,11 @@ h2, p {
 .card:hover {
   box-shadow: 20px 15px 20px rgb(127, 134, 88);
 
+}
+
+#source-button, #favourite-button {
+  background-color: var(--second-color);
+  color: white;
 }
 
 footer {

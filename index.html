@@ -4,131 +4,206 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/style.css">
-    <title>Movie Night</title>
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- link to css files -->
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet">
+    <title>Random Movie Selector</title>
+
 </head>
 <body>
     <!-- Header -->
     <!-- Website Title -->
     <header>
-        <h1>Random Movie Selector</h1>
-        <p>This is a fun app.</p>
+        <h1 id="header-title">Random Movie Selector</h1>
+        <p>This is a fun app to help you find your movie.</p>
     </header>
-
+    <br>
+   
     <main>
         <!-- Search bar -->
-        <section id="">
-            <p>Search for your favourite movie:</p>
-            <form action="">
-                <input class="u-full-width" type="search" placeholder="your favourite movie" id="search-bar">
-
+        <section id="search-bar">
+            <!-- input -->
+            <h2 class="spacing">Search for your favourite movie:</h2>
+            <form class="spacing">
+                <input id="search-input" class="input column is-half is-offset-one-quarter" type="text" placeholder="Your favourite movie">
             </form>
 
+            <!-- Random movie button -->
+            <button class="button">Generate Random Movies!</button>
+        </section>
+        <br>
+        <br>
+      
+        <!-- Card template for randomly generated movies -->
+        <section class="is-justify-content-space-around columns">
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Your Name</p>
+                    </div>
+                  </div>
+              
+                  <div class="content">
+                    <p>Rating: <span id="ratig"></span></p>
+                    <p>Released year: <span id="released-year"></span></p>
+                    <p>Main Actors: <span id="main-actors"></span></p>
+                    <button class="button is-small is-responsive">
+                        Find sources
+                    </button>
+                    <button class="button is-small is-responsive">
+                        Favourite💗
+                    </button>
+                    
+                    <br>
+                  </div>
+                </div>
+            </div>
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">About A Boy</p>
+                    </div>
+                  </div>
+              
+                  <div class="content">
+                    <p>Rating: <span id="ratig"></span></p>
+                    <p>Released year: <span id="released-year"></span></p>
+                    <p>Main Actors: <span id="main-actors"></span></p>
+                    <button class="button is-small is-responsive">
+                        Find sources
+                    </button>
+                    <button class="button is-small is-responsive">
+                        Favourite💗
+                    </button>
+                    <br>
+                  </div>
+                </div>
+            </div>
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Totoro</p>
+                    </div>
+                  </div>
+              
+                  <div class="content">
+                    <p>Rating: <span id="ratig"></span></p>
+                    <p>Released year: <span id="released-year"></span></p>
+                    <p>Main Actors: <span id="main-actors"></span></p>
+                    <button class="button is-small is-responsive">
+                        Find sources
+                    </button>
+                    <button class="button is-small is-responsive">
+                        Favourite💗
+                    </button>
+                    <br>
+                  </div>
+                </div>
+            </div>
+
         </section>
 
-        <!-- Random movie button -->
-        <section>
-            <a class="button button-primary" href="#">Generate Random Movies!</a>
+
+        <h2>You can find movie on:</h2>
+        <!-- <-- Card template for movie provider of choice -->
+        
+        <section class="is-justify-content-space-around columns">
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Amazon Prime</p>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Netflix</p>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
+
+            <div class="card column is-3">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img id="movie-img" src="" alt="movie image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    
+                    <div class="media-content">
+                      <p class="title is-4">Apple TV</p>
+                    </div>
+                  </div>
+              
+                </div>
+            </div>
         </section>
         
-        <!-- Card template for randomly generated movies -->
-        <section>
-
-        </section>
-
-        <!-- Card template for movie provider of choice -->
-        <section>
-
-        </section>
-
-
-
-        <!-- Card template for randomly generated movies -->
-        <section>
-               
-           <h6> Title</h6>
-           <h6> Rating</h6>
-           <h6> Release year</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-                    <h6> Title</h6>
-                    <h6> Rating</h6>
-                    <h6> Release year</h6>
-                    <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
-                        </div>
-                        </div>
-                        <h6> Title</h6>
-           <h6> Rating</h6>
-           <h6> Release year</h6>  
-                   <div class="media">
-                            <div class="media-left">
-                              <figure class="image is-48x48">
-                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                              </figure>
-                            </div>
-                            </div>
-        </section>
-        <p>You can find movie on:</p>
-        <!-- Card template for movie provider of choice -->
-        <h6>Amazon</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-        
-        <h6>Netflix</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-        <h6>Apple i-tunes</h6>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    </div>
-        <section>
-
-        </section>
     
     </main>
+    <br>
+    <br>
 
 
     <!-- Footer -->
     <footer>
-
+        <p>Created by Team Alice, Tim and Yoko. ©2022</p>
     </footer>
 
-    <form>
-        <input type="text" id="search-input">
-        <button type="submit" id="search-submit-button">Search</button>
-    </form>
-
-    <img src="" alt="">
-
-    <div id="movie-container"></div>
-
-    <div id="movie-sources-container"></div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="./assets/app.js"></script>
+    <script src="./assets/js/app.js"></script>
 
 </body>
 </html>

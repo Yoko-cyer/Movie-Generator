@@ -34,9 +34,10 @@
             <form class="spacing">
                 <input id="search-input" class="input column is-half is-offset-one-quarter" type="text" placeholder="Your favourite movie">
             </form>
+            <br>
 
             <!-- Random movie button -->
-            <button class="button">Generate Random Movies!</button>
+            <button id="generator-button" class="button ">Generate Random Movies!</button>
         </section>
         <br>
         <br>
@@ -54,7 +55,7 @@
                   <div class="media">
                     
                     <div class="media-content">
-                      <p class="title is-4">Your Name</p>
+                      <p id="movie-title" class="title is-4">Your Name</p>
                     </div>
                   </div>
               
@@ -62,10 +63,10 @@
                     <p>Rating: <span id="ratig"></span></p>
                     <p>Released year: <span id="released-year"></span></p>
                     <p>Main Actors: <span id="main-actors"></span></p>
-                    <button class="button is-small is-responsive">
-                        Find sources
+                    <button id="source-button" class="button is-small is-responsive">
+                        Find sources📺
                     </button>
-                    <button class="button is-small is-responsive">
+                    <button id="favourite-button" class="button is-small is-responsive">
                         Favourite💗
                     </button>
                     
@@ -84,7 +85,7 @@
                   <div class="media">
                     
                     <div class="media-content">
-                      <p class="title is-4">About A Boy</p>
+                      <p id="movie-title" class="title is-4">About A Boy</p>
                     </div>
                   </div>
               
@@ -92,10 +93,10 @@
                     <p>Rating: <span id="ratig"></span></p>
                     <p>Released year: <span id="released-year"></span></p>
                     <p>Main Actors: <span id="main-actors"></span></p>
-                    <button class="button is-small is-responsive">
-                        Find sources
+                    <button id="source-button" class="button is-small is-responsive">
+                        Find sources📺
                     </button>
-                    <button class="button is-small is-responsive">
+                    <button id="favourite-button" class="button is-small is-responsive">
                         Favourite💗
                     </button>
                     <br>
@@ -113,7 +114,7 @@
                   <div class="media">
                     
                     <div class="media-content">
-                      <p class="title is-4">Totoro</p>
+                      <p id="movie-title" class="title is-4">Totoro</p>
                     </div>
                   </div>
               
@@ -121,10 +122,10 @@
                     <p>Rating: <span id="ratig"></span></p>
                     <p>Released year: <span id="released-year"></span></p>
                     <p>Main Actors: <span id="main-actors"></span></p>
-                    <button class="button is-small is-responsive">
-                        Find sources
+                    <button id="source-button" class="button is-small is-responsive">
+                        Find sources📺
                     </button>
-                    <button class="button is-small is-responsive">
+                    <button id="favourite-button" class="button is-small is-responsive">
                         Favourite💗
                     </button>
                     <br>
@@ -133,24 +134,26 @@
             </div>
 
         </section>
+        <br>
 
 
-        <h2>You can find movie on:</h2>
         <!-- <-- Card template for movie provider of choice -->
         
+        <h2 id="souces-title">You can find movie on:</h2>
+        <br>
         <section class="is-justify-content-space-around columns">
 
             <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
-                    <img id="movie-img" src="" alt="movie image">
+                    <img id="source-img" src="" alt="source image">
                   </figure>
                 </div>
                 <div class="card-content">
                   <div class="media">
                     
                     <div class="media-content">
-                      <p class="title is-4">Amazon Prime</p>
+                      <p id="source-title" class="title is-4">Amazon Prime</p>
                     </div>
                   </div>
               
@@ -160,14 +163,14 @@
             <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
-                    <img id="movie-img" src="" alt="movie image">
+                    <img id="source-img" src="" alt="source image">
                   </figure>
                 </div>
                 <div class="card-content">
                   <div class="media">
                     
                     <div class="media-content">
-                      <p class="title is-4">Netflix</p>
+                      <p id="source-title" class="title is-4">Netflix</p>
                     </div>
                   </div>
               
@@ -177,14 +180,14 @@
             <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
-                    <img id="movie-img" src="" alt="movie image">
+                    <img id="source-img" src="" alt="source image">
                   </figure>
                 </div>
                 <div class="card-content">
                   <div class="media">
                     
                     <div class="media-content">
-                      <p class="title is-4">Apple TV</p>
+                      <p id="source-title" class="title is-4">Apple TV</p>
                     </div>
                   </div>
               

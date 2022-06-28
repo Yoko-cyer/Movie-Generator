@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/style.css">
     <title>Movie Night</title>
 </head>
 <body>
@@ -20,7 +21,23 @@
     <!-- Card template for movie provider of choice -->
 
     <!-- Footer -->
+    <button id="random-movie-button">Get Random Movies!</button>
+    <button id="render-favourites-button"> See your favourite movies!</button>
+    <button id="clear-favourites-button">Clear Favourites</button>
 
+    <form>
+        <input type="text" id="search-input">
+        <button type="submit" id="search-submit-button">Search</button>
+    </form>
+
+    <img src="" alt="">
+
+    <div id="movie-container"></div>
+
+    <div id="movie-sources-container"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./assets/app.js"></script>
+
 </body>
 </html>

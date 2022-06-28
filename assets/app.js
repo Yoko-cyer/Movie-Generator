@@ -66,9 +66,14 @@ renderFavButton.addEventListener('click', function (event) {
     event.preventDefault();
     sourceContainer.innerHTML = '';
     const favourites = JSON.parse(localStorage.getItem('movie'))
-    console.log(favourites)
-    renderMovies(favourites)
-    renderDeleteButton();
+    if (favourites.length != 0) {
+        renderMovies(favourites)
+        renderDeleteButton();
+    } else {
+        renderFavButton.textContent = "Pick a favourite movie first!"
+        console.log('No favourites')
+    }
+   
 })
 
 clearFavButton.addEventListener('click', function (event) {
@@ -209,6 +214,8 @@ $(document).on('click', '.sources-button', function () {
 $(document).on('click', '.favourite-button', function () {
 
     const saveKey = $(this).parent().attr('') 
+
+    renderFavButton.textContent = "See your favourite movies!"
 
     const movieSave = {
         id: $(this).parent().attr('data-imdb'),

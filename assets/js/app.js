@@ -254,10 +254,6 @@ $(document).on('click', '.delete-button', function () {
         return i.title === movieTitle;
     }), 1);
 
-   const removeMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
-        return i.title === movieTitle
-    }), 1)
-
 
     localStorage.setItem('movie', JSON.stringify(oldFavourites));
 
@@ -300,7 +296,7 @@ async function renderMovieSources(id) {
     for (let i = 0; i < sourceList?.length; i++) {
        
         const sourceCardCol = document.createElement('div');
-        sourceCardCol.classList.add('column', 'is-3');
+        sourceCardCol.classList.add('column', 'is-2');
 
         sourcesHeader.textContent = "Click one of the links to be directed to their website"
 
@@ -309,7 +305,7 @@ async function renderMovieSources(id) {
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
         const sourceCardDiv = document.createElement('div');
-        sourceCardDiv.classList.add('card','column','mx-2', 'is-three-quarters-mobile','is-one-third-desktop','source-card','mx-1','my-1');
+        sourceCardDiv.classList.add('card','source-card','my-1');
         sourceCardDiv.setAttribute('data-company',sourceCompany)
 
         const cardImageContainer = document.createElement('div');
@@ -328,7 +324,7 @@ async function renderMovieSources(id) {
         cardMediaDiv.classList.add('media');
 
         const mediaContentDiv = document.createElement('div');
-        mediaContentDiv.classList.add('media-content');
+        mediaContentDiv.classList.add('media-content','has-text-centered');
 
         const companyName = document.createElement('p')
         companyName.textContent = sourceCompany;

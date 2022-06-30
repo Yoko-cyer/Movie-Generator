@@ -59,7 +59,7 @@ h2, p {
 
 .source-card {
   cursor: pointer;
-
+  height: 250px;
 }
 
 .card:hover {

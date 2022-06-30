@@ -3,9 +3,9 @@
 
 ## User Story
 
-     As A movie lover
-     I want to search movies or use random movie generator
-     so THAT I can watch good movies in desired platform or add as  favourite
+    As A movie lover
+    I want to search movies or use random movie generator
+    SO THAT I can watch good movies in desired platform or add as favourite
 
 
 

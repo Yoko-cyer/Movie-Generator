@@ -254,10 +254,6 @@ $(document).on('click', '.delete-button', function () {
         return i.title === movieTitle;
     }), 1);
 
-   const removeMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
-        return i.title === movieTitle
-    }), 1)
-
 
     localStorage.setItem('movie', JSON.stringify(oldFavourites));
 
@@ -293,12 +289,14 @@ async function renderMovieSources(id) {
     // This doesn't work, fix later
     if (sourceList === undefined) {
         console.error("Can't find this movie :(");
+        sourcesHeader.textContent = "Sorry, we could not find any sources for this movie."
+
     }
 
     for (let i = 0; i < sourceList?.length; i++) {
        
         const sourceCardCol = document.createElement('div');
-        sourceCardCol.classList.add('column', 'is-3');
+        sourceCardCol.classList.add('column', 'is-2');
 
         sourcesHeader.textContent = "Click one of the links to be directed to their website"
 
@@ -307,7 +305,7 @@ async function renderMovieSources(id) {
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
         const sourceCardDiv = document.createElement('div');
-        sourceCardDiv.classList.add('card','column','mx-2', 'is-three-quarters-mobile','is-one-third-desktop','source-card','mx-1','my-1');
+        sourceCardDiv.classList.add('card','source-card','my-1');
         sourceCardDiv.setAttribute('data-company',sourceCompany)
 
         const cardImageContainer = document.createElement('div');
@@ -326,7 +324,7 @@ async function renderMovieSources(id) {
         cardMediaDiv.classList.add('media');
 
         const mediaContentDiv = document.createElement('div');
-        mediaContentDiv.classList.add('media-content');
+        mediaContentDiv.classList.add('media-content','has-text-centered');
 
         const companyName = document.createElement('p')
         companyName.textContent = sourceCompany;
@@ -365,30 +363,35 @@ function getMovieSources(id) {
     
         })
         .then(function (sources) {
-            console.log(movieSourcesURL)
-            console.log(sources)
-            let australianStreaming = [];
-            let australianBuying = [];
-            const streams = sources.results.AU.flatrate;
-            const purchase = sources.results.AU.buy;
-            for (let i = 0; i < streams?.length; i++) {
-                australianStreaming[i] = {
-                    company: streams[i].provider_name,
-                    logo: streams[i].logo_path, // later add the rest of the url here
-                    type: "Streaming"
-                };
-            };
 
-            for (let i = 0; i < purchase?.length; i++) {
-                australianBuying[i] = {
-                    company: purchase[i].provider_name,
-                    logo: purchase[i].logo_path, // later add the rest of the url here
-                    type: "Purchase"
+            if(sources.results.AU?.buy === undefined){
+                return;
+            } else {
+                console.log(movieSourcesURL)
+                console.log(sources)
+                let australianStreaming = [];
+                let australianBuying = [];
+                const streams = sources.results.AU.flatrate;
+                const purchase = sources.results.AU.buy;
+                for (let i = 0; i < streams?.length; i++) {
+                    australianStreaming[i] = {
+                        company: streams[i].provider_name,
+                        logo: streams[i].logo_path, // later add the rest of the url here
+                        type: "Streaming"
+                    };
                 };
-            };
-
-            Array.prototype.push.apply(australianBuying, australianStreaming);
-            return australianBuying;
+    
+                for (let i = 0; i < purchase?.length; i++) {
+                    australianBuying[i] = {
+                        company: purchase[i].provider_name,
+                        logo: purchase[i].logo_path, // later add the rest of the url here
+                        type: "Purchase"
+                    };
+                };
+    
+                Array.prototype.push.apply(australianBuying, australianStreaming);
+                return australianBuying;
+            }
         });
 
 }

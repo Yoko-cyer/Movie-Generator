@@ -59,7 +59,8 @@ h2, p {
 
 .source-card {
   cursor: pointer;
-
+  height: 250px;
+  max-width: 150px;
 }
 
 .card:hover {

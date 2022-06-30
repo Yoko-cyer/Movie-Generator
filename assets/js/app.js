@@ -68,7 +68,9 @@ renderFavButton.addEventListener('click', function (event) {
     const favourites = JSON.parse(localStorage.getItem('movie'))
     if (favourites.length != 0) {
         renderMovies(favourites)
-        renderDeleteButton();
+        clearFavButton.classList.remove('is-hidden')
+        $('.favourite-button').hide();
+        // renderDeleteButton();
     } else {
         renderFavButton.textContent = "Pick a favourite movie first!"
         console.log('No favourites')
@@ -144,39 +146,74 @@ async function renderMovies(movieArray) {
     
     // For loop that creates elements for each movie and adds them to DOM
     for (let i = 0; i < movieArray.length; i++) {
-        const movieID = movieArray[i].imdbID;
-        const movieCard = document.createElement('div');
-        movieCard.setAttribute('data-imdb', movieID);
-        movieCard.setAttribute('id', 'movie-card');
-        movieCard.setAttribute('class','movie-card');
-        movieCard.setAttribute('id', i);
-        movieCard.classList.add('border')
 
-        const movieTitle = document.createElement('h3');
+        const movieID = movieArray[i].imdbID
+
+        const movieCardCol = document.createElement('div');
+        movieCardCol.classList.add('column','is-4');
+
+        const movieCardDiv = document.createElement('div');
+        movieCardDiv.classList.add('card','movie-card');
+
+
+        const imageDiv = document.createElement('div');
+        imageDiv.classList.add('card-image');
+            
+        const figureDiv = document.createElement('figure');
+        figureDiv.classList.add('image', 'is-1by1');
+
+        const movieImg = document.createElement('img');
+        movieImg.setAttribute("src", movieArray[i].posterURL);
+        movieImg.classList.add('movie-poster')
+
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('card-content');
+
+        const mediaDiv = document.createElement('div');
+        mediaDiv.classList.add('media');
+            
+        const mediaContentDiv = document.createElement('div');
+        mediaContentDiv.classList.add('media-content');
+
+        const movieTitle = document.createElement('p');
+        movieTitle.textContent = movieArray[i].title;
+        movieTitle.classList.add('title','is-5')
+
+        const innerContentDiv = document.createElement('div')
+        innerContentDiv.classList.add('content','has-text-centered')
+                
+
         const movieRating = document.createElement('p');
         const movieYear = document.createElement('p');
         const moviePoster = document.createElement('img');
         const favouriteMovieButton = document.createElement('button')
-        const sourcesButton = document.createElement ('button')
+        favouriteMovieButton.classList.add('button','text-center', "is-small","is-responsive","favourite-button")
+        favouriteMovieButton.textContent = "Favourite💗"
+        favouriteMovieButton.setAttribute('data-imdb', movieID);
 
-        movieTitle.textContent = movieArray[i].title;
-        movieRating.textContent =  movieArray[i].rating;
-        movieYear.textContent = movieArray[i].year;
-        moviePoster.setAttribute("src", movieArray[i].posterURL);
+        const findSourcesButton = document.createElement('button')
+        findSourcesButton.classList.add('button', "is-small","is-responsive","sources-button")
+        findSourcesButton.textContent = "Find Sources"
 
-        favouriteMovieButton.textContent = '<3'
-        favouriteMovieButton.setAttribute('class','favourite-button')
-        sourcesButton.textContent = "Get sources"
-        sourcesButton.setAttribute ('class','sources-button')
+        const lineBreak = document.createElement('br')
 
-        movieCard.appendChild(movieTitle);
-        movieCard.appendChild(movieRating);
-        movieCard.appendChild(movieYear);
-        movieCard.appendChild(moviePoster);
-        movieCard.appendChild(favouriteMovieButton);
-        movieCard.appendChild(sourcesButton)
+        movieCardDiv.appendChild(imageDiv)
+        movieCardDiv.appendChild(contentDiv)
+        imageDiv.appendChild(figureDiv)
+        figureDiv.appendChild(movieImg)
+        contentDiv.appendChild(mediaDiv)
+        contentDiv.appendChild(innerContentDiv)
+        mediaDiv.appendChild(mediaContentDiv)
+        mediaContentDiv.appendChild(movieTitle)
+        innerContentDiv.appendChild(movieRating)
+        innerContentDiv.appendChild(releaseYear)
+        innerContentDiv.appendChild(favouriteMovieButton)
+        innerContentDiv.appendChild(findSourcesButton)
+        innerContentDiv.appendChild(lineBreak)
+     
+        movieCardCol.appendChild(movieCardDiv)   
+        movieContainer.appendChild(movieCardCol)                     
 
-        movieContainer.appendChild(movieCard);
     }
 
     return movieArray;
@@ -192,10 +229,6 @@ function renderDeleteButton () {
     $('.movie-card').each(function(i) {
         movieCards.eq(i).append($(deleteButton.cloneNode(true)));
     })
-
-
-  
-
 }
 
 
@@ -230,11 +263,14 @@ $(document).on('click', '.favourite-button', function () {
     if (sessionFavourites.includes(movieSave)) {
         return;
     } else {  
-        sessionFavourites.push(movieSave);
-    }
-    
-    localStorage.setItem('movie', JSON.stringify(sessionFavourites));
+        const pastFavourites = JSON.parse(localStorage.getItem('movie'))
 
+        pastFavourites.push(movieSave);
+
+        localStorage.setItem('movie', JSON.stringify(pastFavourites));
+
+
+    }
 
 });
 
@@ -246,6 +282,11 @@ $(document).on('click', '.delete-button', function () {
     const removieMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
         return i.title === movieTitle;
     }), 1);
+
+   const removeMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
+        return i.title === movieTitle
+    }), 1)
+
 
     localStorage.setItem('movie', JSON.stringify(oldFavourites));
 
@@ -269,6 +310,7 @@ $(document).on('click', '.source-card', function () {
     if (company == 'BINGE') {window.open ('https://binge.com.au/')}
     if (company == 'Foxtel Now') {window.open ('https://www.foxtel.com.au/now/index.html')}
     if (company == 'Netflix') {window.open ('https://www.netflix.com/')}
+    if (company == 'YouTube') {window.open ('https://www.youtube.com/feed/storefront')}
 })
 
 async function renderMovieSources(id) {
@@ -287,9 +329,13 @@ async function renderMovieSources(id) {
         const sourceType = sourceList[i].type;
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
-        const sourceCard = document.createElement('div');
-        sourceCard.setAttribute('data-company',sourceCompany);
-        sourceCard.setAttribute('class', 'source-card');
+        sourceCardCol = document.createElement('div');
+        sourceCardCol.classList.add('column', 'is-3')
+
+        const sourceCardDiv = document.createElement('div');
+        sourceCardDiv.classList.add('card','mx-2','source-card');
+        sourceCardDiv.setAttribute('data-company',sourceCompany)
+
 
         const sourceTitleEl = document.createElement('h3');
         const sourceTypeEl = document.createElement('p');
@@ -303,7 +349,32 @@ async function renderMovieSources(id) {
         sourceCard.appendChild(sourceTypeEl);
         sourceCard.appendChild(sourceLogoEl);
 
-        sourceContainer.appendChild(sourceCard);
+        const cardContentContainer = document.createElement('div');
+        cardContentContainer.classList.add('card-content');
+
+        const cardMediaDiv = document.createElement('div');
+        cardMediaDiv.classList.add('media');
+
+        const mediaContentDiv = document.createElement('div');
+        mediaContentDiv.classList.add('media-content');
+
+        const companyName = document.createElement('p')
+        companyName.textContent = sourceCompany;
+
+        const purchaseType = document.createElement('p');
+        purchaseType.textContent = 'Type: ' + sourceType;
+
+        sourceCardDiv.appendChild(cardImageContainer);
+        cardImageContainer.appendChild(imageFigure);
+        imageFigure.appendChild(sourceImage);
+        sourceCardDiv.appendChild(cardContentContainer);
+        cardContentContainer.appendChild(cardMediaDiv);
+        cardMediaDiv.appendChild(mediaContentDiv);
+        mediaContentDiv.appendChild(companyName);
+        mediaContentDiv.appendChild(purchaseType);
+        sourceCardCol.appendChild(sourceCardDiv)
+
+        sourceContainer.appendChild(sourceCardCol);
 
 
     }
@@ -350,37 +421,5 @@ function getMovieSources(id) {
 
 }
 
-// Search planning
 
-// target the dom input element
-// target the input itself
-// encode input in URL format
-// fetch from the api with the given input url
-// Loop to get top 5 results, create objects for them
-// Render search results
-// Give each result a data attribute with the imdb url
-// On click of the div
-// Send the ID back to the getmoviesources
-
-
-
-// We wait for them to click the generate button
-
-// when the user clicks the generate button
-
-// For loop x3
-// randomly select a movie from the catalogue
-// Create variables for movie name, metaScore, and overview
-// Display each movie in its card
-    // Movie title
-    // Movie metaScore
-    // Movie overview
-
-// When the user clicks on a movie
-// The movie title is sent to to watchmode api
-// Links for each video provider are retrieved
-
-// Create a clickable card for each provider
-    // provider name
-    // provider logo
 

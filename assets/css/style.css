@@ -52,7 +52,14 @@ h2, p {
 }
 
 .card {
-  transition: all 0.5s ease-out
+  transition: all 0.5s ease-out;
+  margin-top: 1rem;
+  
+}
+
+.source-card {
+  cursor: pointer;
+
 }
 
 .card:hover {

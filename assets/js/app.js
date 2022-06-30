@@ -39,7 +39,7 @@ renderFavButton.addEventListener('click', function (event) {
     event.preventDefault();
     sourceContainer.innerHTML = '';
     // Get favourites back from storage
-    const favourites = JSON.parse(localStorage.getItem('movie'))
+    const favourites = JSON.parse(localStorage.getItem('movie')) || [];
     // If we have favourites
     if (favourites.length != 0) {
         // Pass them on to be rendered
@@ -246,7 +246,7 @@ $(document).on('click', '.favourite-button', function () {
         return;
     } else {
         // Get the old favourites  
-        const pastFavourites = JSON.parse(localStorage.getItem('movie'))
+        const pastFavourites = JSON.parse(localStorage.getItem('movie')) || [];
 
         // Add the new one
         pastFavourites.push(movieSave);
@@ -266,7 +266,7 @@ $(document).on('click', '.delete-button', function () {
     const oldFavourites = JSON.parse(localStorage.getItem('movie'))
 
     // attempted to find and slice the movie based on its property from local storage but it was very buggy
-    const removieMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
+    const removeMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
         return i.title === movieTitle;
     }), 1);
 

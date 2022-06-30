@@ -1,38 +1,4 @@
-// When the user visits the web page
 
-// watchmode api key OGybiEL34teukqCQLGYa1ofrAAmi6FcCoN7FyfRg
-
-// OMDB api key a730161a
-
-// TMDB Key f2bec59cbb0f2bf3a17d6a7cc5d83a0d
-
-// IMDB Key: k_kxd0m127
-// Backup IMDB key: k_alam86n1
-
-// Stand-up notes
-// So far today: Instead of outputting a messy array of movies, it now returns an array of objects containing the important features
-// Issue i was facing today: I couldn't access the returned data
-// Fixed issue by making the function asynchronous (ask sam for specification on exactly how i fixed the problem)
-
-// Plan for favourites button
-
-// dynamically generate button with love heart
-// on click of love heart
-// save the movie's object
-
-
-// TO DO: Test the API's for finding movie locations
-// I want to
-// Show the movie providers name
-// Show their logo
-// Have a URL to their website (and potentially directly to the movie)
-// Will make this clickable to whole card later in project
-
-
-// NOTE FOR TOMORROW
-    // seperate function to render delete buttons after rendering the movies
-
-// variables for API URLs
 
 const movieListURL = 'https://imdb-api.com/en/API/Top250Movies/k_kxd0m127'
 
@@ -46,7 +12,7 @@ const searchInputEl = document.getElementById('search-input');
 const searchButton = document.getElementById('search-submit-button');
 const renderFavButton = document.getElementById('render-favourites-button')
 const clearFavButton = document.getElementById('clear-favourites-button')
-
+const sourcesHeader = document.getElementById('sources-header');
 
 randomMovieButton.addEventListener('click', function () {
     movieContainer.innerHTML = '';
@@ -184,8 +150,13 @@ async function renderMovies(movieArray) {
                 
 
         const movieRating = document.createElement('p');
-        const movieYear = document.createElement('p');
-        const moviePoster = document.createElement('img');
+        movieRating.classList.add('movie-rating')
+        movieRating.textContent = movieArray[i].rating
+
+        const releaseYear = document.createElement('p');
+        releaseYear.classList.add('release-year')
+        releaseYear.textContent = movieArray[i].year;
+
         const favouriteMovieButton = document.createElement('button')
         favouriteMovieButton.classList.add('button','text-center', "is-small","is-responsive","favourite-button")
         favouriteMovieButton.textContent = "Favourite💗"
@@ -238,7 +209,7 @@ function renderDeleteButton () {
 
 $(document).on('click', '.sources-button', function () {
    
-    const movieID = $(this).parent().attr('data-imdb');
+    const movieID = $(this).prev().attr('data-imdb');
 
     renderMovieSources(movieID);
 
@@ -246,16 +217,16 @@ $(document).on('click', '.sources-button', function () {
 
 $(document).on('click', '.favourite-button', function () {
 
-    const saveKey = $(this).parent().attr('') 
+    const saveKey = $(this).prev().attr('') 
 
     renderFavButton.textContent = "See your favourite movies!"
 
     const movieSave = {
-        id: $(this).parent().attr('data-imdb'),
-        title: $(this).prev().prev().prev().prev().text(),
-        rating: $(this).prev().prev().prev().text(),
-        year: $(this).prev().prev().text(),
-        posterURL: $(this).prev().attr('src')
+        imdbID: $(this).attr('data-imdb'),
+        title: $(this).parent().parent().find('.title').text(),
+        rating: $(this).parent().find('.movie-rating').text(),
+        year: $(this).parent().find('.release-year').text(),
+        posterURL: $(this).parent().parent().prev().find('.movie-poster').attr('src')
     }
 
     
@@ -325,29 +296,28 @@ async function renderMovieSources(id) {
     }
 
     for (let i = 0; i < sourceList?.length; i++) {
+       
+        const sourceCardCol = document.createElement('div');
+        sourceCardCol.classList.add('column', 'is-3');
+
+        sourcesHeader.textContent = "Click one of the links to be directed to their website"
+
         const sourceCompany = sourceList[i].company;
         const sourceType = sourceList[i].type;
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
-        sourceCardCol = document.createElement('div');
-        sourceCardCol.classList.add('column', 'is-3')
-
         const sourceCardDiv = document.createElement('div');
-        sourceCardDiv.classList.add('card','mx-2','source-card');
+        sourceCardDiv.classList.add('card','column','mx-2', 'is-three-quarters-mobile','is-one-third-desktop','source-card','mx-1','my-1');
         sourceCardDiv.setAttribute('data-company',sourceCompany)
 
+        const cardImageContainer = document.createElement('div');
+        cardImageContainer.classList.add('card-image');
 
-        const sourceTitleEl = document.createElement('h3');
-        const sourceTypeEl = document.createElement('p');
-        const sourceLogoEl = document.createElement('img');
+        const imageFigure = document.createElement('figure');
+        imageFigure.classList.add('image','is-4by3');
 
-        sourceTitleEl.textContent = sourceCompany;
-        sourceTypeEl.textContent = sourceType;
-        sourceLogoEl.setAttribute("src", sourceLogo)
-
-        sourceCard.appendChild(sourceTitleEl);
-        sourceCard.appendChild(sourceTypeEl);
-        sourceCard.appendChild(sourceLogoEl);
+        const sourceImage = document.createElement('img');
+        sourceImage.setAttribute('src',sourceLogo);
 
         const cardContentContainer = document.createElement('div');
         cardContentContainer.classList.add('card-content');
@@ -372,6 +342,8 @@ async function renderMovieSources(id) {
         cardMediaDiv.appendChild(mediaContentDiv);
         mediaContentDiv.appendChild(companyName);
         mediaContentDiv.appendChild(purchaseType);
+
+
         sourceCardCol.appendChild(sourceCardDiv)
 
         sourceContainer.appendChild(sourceCardCol);
@@ -403,7 +375,7 @@ function getMovieSources(id) {
                 australianStreaming[i] = {
                     company: streams[i].provider_name,
                     logo: streams[i].logo_path, // later add the rest of the url here
-                    type: "streaming"
+                    type: "Streaming"
                 };
             };
 
@@ -411,7 +383,7 @@ function getMovieSources(id) {
                 australianBuying[i] = {
                     company: purchase[i].provider_name,
                     logo: purchase[i].logo_path, // later add the rest of the url here
-                    type: "purchase"
+                    type: "Purchase"
                 };
             };
 

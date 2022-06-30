@@ -35,7 +35,7 @@ h2, p {
   border-color: var(--second-color);
 }
 
-#generator-button {
+#random-movie-button, #search-submit-button, #render-favourites-button, #clear-favourites-button {
   border-color: var(--second-color);
   background-color: var(--second-color);
   color: white;

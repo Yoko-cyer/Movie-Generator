@@ -238,10 +238,6 @@ function renderDeleteButton () {
     $('.movie-card').each(function(i) {
         movieCards.eq(i).append($(deleteButton.cloneNode(true)));
     })
-
-
-  
-
 }
 
 
@@ -279,14 +275,6 @@ $(document).on('click', '.favourite-button', function () {
         const pastFavourites = JSON.parse(localStorage.getItem('movie'))
 
         pastFavourites.push(movieSave);
-        // console.log(sessionFavourites)
-
-        // // const newSessionFavourites = sessionFavourites.concat(movieSave);
-
-        // const newSave = pastFavourites.concat(pastFavourites, sessionFavourites)
-        // console.log(newSave)
-
-        // // ERROR HERE: SETTING ITEM RATHER THAN PSUHING OLD
 
         localStorage.setItem('movie', JSON.stringify(pastFavourites));
 
@@ -307,13 +295,11 @@ $(document).on('click', '.delete-button', function () {
     //     return i.title === movieTitle;
     // }), 1);
 
-    oldFavourites.splice(oldFavourites.findIndex(function(i){
+   const removeMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
         return i.title === movieTitle
     }), 1)
 
-    console.log(oldFavourites)
-
-    // localStorage.setItem('movie', JSON.stringify(oldFavourites));
+    localStorage.setItem('movie', JSON.stringify(oldFavourites));
 
     $(this).parent().remove();
 
@@ -336,6 +322,7 @@ $(document).on('click', '.source-card', function () {
     if (company == 'BINGE') {window.open ('https://binge.com.au/')}
     if (company == 'Foxtel Now') {window.open ('https://www.foxtel.com.au/now/index.html')}
     if (company == 'Netflix') {window.open ('https://www.netflix.com/')}
+    if (company == 'YouTube') {window.open ('https://www.youtube.com/feed/storefront')}
 })
 
 async function renderMovieSources(id) {
@@ -396,41 +383,9 @@ async function renderMovieSources(id) {
         cardMediaDiv.appendChild(mediaContentDiv);
         mediaContentDiv.appendChild(companyName);
         mediaContentDiv.appendChild(purchaseType);
+        sourceCardCol.appendChild(sourceCardDiv)
 
-        sourceContainer.appendChild(sourceCardDiv);
-
-
-
-
-        // CARD
-            // DIV CARD IMAGE
-                // FIGURE IMAGE
-                    // IMG
-            // DIV CARD CONTENT
-                // DIV MEDIA
-                    // DIV MEDIA-CONTENT
-                        // P
-                        // p
-
-
-        // const sourceCard = document.createElement('div');
-        // sourceCard.setAttribute('data-company',sourceCompany);
-        // sourceCard.setAttribute('class', 'source-card');
-
-        // const sourceTitleEl = document.createElement('h3');
-        // const sourceTypeEl = document.createElement('p');
-        // const sourceLogoEl = document.createElement('img');
-
-        // sourceTitleEl.textContent = sourceCompany;
-        // sourceTypeEl.textContent = sourceType;
-        // sourceLogoEl.setAttribute("src", sourceLogo)
-
-        // sourceCard.appendChild(sourceTitleEl);
-        // sourceCard.appendChild(sourceTypeEl);
-        // sourceCard.appendChild(sourceLogoEl);
-
-        // sourceContainer.appendChild(sourceCard);
-
+        sourceContainer.appendChild(sourceCardCol);
 
     }
 }
@@ -485,41 +440,4 @@ function getMovieSources(id) {
 
 }
 
-// BUG
-    // ITEMS SAVED TO LOCAL STORAGE ARE ERASED WHEN NEW ITEMS ARE SAVED IN NEW SESSION
-    // PROBABLY RELATED TO RE-SETTING THE LOCAL STORAGE
-
-// Search planning
-
-// target the dom input element
-// target the input itself
-// encode input in URL format
-// fetch from the api with the given input url
-// Loop to get top 5 results, create objects for them
-// Render search results
-// Give each result a data attribute with the imdb url
-// On click of the div
-// Send the ID back to the getmoviesources
-
-
-
-// We wait for them to click the generate button
-
-// when the user clicks the generate button
-
-// For loop x3
-// randomly select a movie from the catalogue
-// Create variables for movie name, metaScore, and overview
-// Display each movie in its card
-    // Movie title
-    // Movie metaScore
-    // Movie overview
-
-// When the user clicks on a movie
-// The movie title is sent to to watchmode api
-// Links for each video provider are retrieved
-
-// Create a clickable card for each provider
-    // provider name
-    // provider logo
 

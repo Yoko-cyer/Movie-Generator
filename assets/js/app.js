@@ -29,8 +29,10 @@
 // Will make this clickable to whole card later in project
 
 
-// NOTE FOR TOMORROW
-    // seperate function to render delete buttons after rendering the movies
+// FIXES FOR NEW HTML
+
+    //fix number of (prevs)
+    // fix rendering of sources
 
 // variables for API URLs
 
@@ -39,13 +41,14 @@ const movieListURL = 'https://imdb-api.com/en/API/Top250Movies/k_kxd0m127'
 let sessionFavourites = [];
 
 // Test container - will change
-const movieContainer = document.getElementById('movie-container');
-const sourceContainer = document.getElementById('movie-sources-container');
-const randomMovieButton = document.getElementById('random-movie-button');
-const searchInputEl = document.getElementById('search-input');
-const searchButton = document.getElementById('search-submit-button');
-const renderFavButton = document.getElementById('render-favourites-button')
-const clearFavButton = document.getElementById('clear-favourites-button')
+const movieContainer = document.getElementById('movie-container'); //
+const sourceContainer = document.getElementById('movie-sources-container'); //
+const randomMovieButton = document.getElementById('random-movie-button'); //
+const searchInputEl = document.getElementById('search-input'); //
+const searchButton = document.getElementById('search-submit-button');//
+const renderFavButton = document.getElementById('render-favourites-button') //
+const clearFavButton = document.getElementById('clear-favourites-button') //
+const sourcesHeader = document.getElementById('sources-header')
 
 
 randomMovieButton.addEventListener('click', function () {
@@ -68,11 +71,13 @@ renderFavButton.addEventListener('click', function (event) {
     const favourites = JSON.parse(localStorage.getItem('movie'))
     if (favourites.length != 0) {
         renderMovies(favourites)
-        renderDeleteButton();
+        clearFavButton.classList.remove('is-hidden')
+        // renderDeleteButton();
     } else {
         renderFavButton.textContent = "Pick a favourite movie first!"
         console.log('No favourites')
     }
+    $('.favourite-button').hide();
    
 })
 
@@ -82,6 +87,7 @@ clearFavButton.addEventListener('click', function (event) {
     localStorage.setItem('movie', JSON.stringify(sessionFavourites));
     movieContainer.innerHTML = ''
     sourceContainer.innerHTML = ''
+    clearFavButton.classList.add('is-hidden')
 })
 
 function getSearchResults(userInput) {
@@ -94,16 +100,17 @@ function getSearchResults(userInput) {
         .then (function(results){
             const searchResults = results.results
             let finalResults = [];
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < searchResults.length; i++) {
                 finalResults[i] = {
                     title: searchResults[i].title,
-                    rating: searchResults[i].vote_average,
-                    year: searchResults[i].release_date,
+                    rating: "Rating: " + searchResults[i].vote_average,
+                    year: "Year: " + searchResults[i].release_date,
                     posterURL: 'https://image.tmdb.org/t/p/w500/' + searchResults[i].poster_path,
                     imdbID: searchResults[i].id
                 };
                 
             }
+        console.log(finalResults)
         renderMovies(finalResults);
         })
 }
@@ -141,42 +148,78 @@ function getMovieList() {
 async function renderMovies(movieArray) {
 
     movieContainer.innerHTML = ''
+    console.log(movieArray)
     
     // For loop that creates elements for each movie and adds them to DOM
     for (let i = 0; i < movieArray.length; i++) {
-        const movieID = movieArray[i].imdbID;
-        const movieCard = document.createElement('div');
-        movieCard.setAttribute('data-imdb', movieID);
-        movieCard.setAttribute('id', 'movie-card');
-        movieCard.setAttribute('class','movie-card');
-        movieCard.setAttribute('id', i);
-        movieCard.classList.add('border')
 
-        const movieTitle = document.createElement('h3');
-        const movieRating = document.createElement('p');
-        const movieYear = document.createElement('p');
-        const moviePoster = document.createElement('img');
-        const favouriteMovieButton = document.createElement('button')
-        const sourcesButton = document.createElement ('button')
+        const movieID = movieArray[i].imdbID
 
+        const movieCardDiv = document.createElement('div');
+        movieCardDiv.classList.add('card','column','is-4','movie-card');
+
+
+        const imageDiv = document.createElement('div');
+        imageDiv.classList.add('card-image');
+            
+        const figureDiv = document.createElement('figure');
+        figureDiv.classList.add('image', 'is-1by1');
+
+        const movieImg = document.createElement('img');
+        movieImg.setAttribute("src", movieArray[i].posterURL);
+        movieImg.classList.add('movie-poster')
+
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('card-content');
+
+        const mediaDiv = document.createElement('div');
+        mediaDiv.classList.add('media');
+            
+        const mediaContentDiv = document.createElement('div');
+        mediaContentDiv.classList.add('media-content');
+
+        const movieTitle = document.createElement('p');
         movieTitle.textContent = movieArray[i].title;
-        movieRating.textContent =  movieArray[i].rating;
-        movieYear.textContent = movieArray[i].year;
-        moviePoster.setAttribute("src", movieArray[i].posterURL);
+        movieTitle.classList.add('title','is-4')
 
-        favouriteMovieButton.textContent = '<3'
-        favouriteMovieButton.setAttribute('class','favourite-button')
-        sourcesButton.textContent = "Get sources"
-        sourcesButton.setAttribute ('class','sources-button')
+        const innerContentDiv = document.createElement('div')
+        innerContentDiv.classList.add('content','has-text-centered')
+                
+        const movieRating = document.createElement('p');
+        movieRating.classList.add('movie-rating')
+        movieRating.textContent = movieArray[i].rating
 
-        movieCard.appendChild(movieTitle);
-        movieCard.appendChild(movieRating);
-        movieCard.appendChild(movieYear);
-        movieCard.appendChild(moviePoster);
-        movieCard.appendChild(favouriteMovieButton);
-        movieCard.appendChild(sourcesButton)
+        const releaseYear = document.createElement('p');
+        releaseYear.classList.add('release-year')
+        releaseYear.textContent = movieArray[i].year;
 
-        movieContainer.appendChild(movieCard);
+        const favouriteMovieButton = document.createElement('button')
+        favouriteMovieButton.classList.add('button','text-center', "is-small","is-responsive","favourite-button")
+        favouriteMovieButton.textContent = "Favourite💗"
+        favouriteMovieButton.setAttribute('data-imdb', movieID);
+
+        const findSourcesButton = document.createElement('button')
+        findSourcesButton.classList.add('button', "is-small","is-responsive","sources-button")
+        findSourcesButton.textContent = "Find Sources"
+
+        const lineBreak = document.createElement('br')
+
+        movieCardDiv.appendChild(imageDiv)
+        movieCardDiv.appendChild(contentDiv)
+        imageDiv.appendChild(figureDiv)
+        figureDiv.appendChild(movieImg)
+        contentDiv.appendChild(mediaDiv)
+        contentDiv.appendChild(innerContentDiv)
+        mediaDiv.appendChild(mediaContentDiv)
+        mediaContentDiv.appendChild(movieTitle)
+        innerContentDiv.appendChild(movieRating)
+        innerContentDiv.appendChild(releaseYear)
+        innerContentDiv.appendChild(favouriteMovieButton)
+        innerContentDiv.appendChild(findSourcesButton)
+        innerContentDiv.appendChild(lineBreak)
+     
+        movieContainer.appendChild(movieCardDiv)                        
+
     }
 
     return movieArray;
@@ -185,10 +228,9 @@ async function renderMovies(movieArray) {
 function renderDeleteButton () {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Remove this movie";
-    deleteButton.setAttribute('class', 'delete-button');
+    deleteButton.classList.add('button', "is-small","is-responsive","favourite-button", "delete-button");
 
     const movieCards = $('.movie-card')
-    console.log(movieCards.length)
     $('.movie-card').each(function(i) {
         movieCards.eq(i).append($(deleteButton.cloneNode(true)));
     })
@@ -205,24 +247,24 @@ function renderDeleteButton () {
 
 $(document).on('click', '.sources-button', function () {
    
-    const movieID = $(this).parent().attr('data-imdb');
+    const movieID = $(this).prev().attr('data-imdb');
+
 
     renderMovieSources(movieID);
-
+    
+    sourcesHeader.scrollIntoView({block:'center', behavior:'smooth'});
 });
 
 $(document).on('click', '.favourite-button', function () {
 
-    const saveKey = $(this).parent().attr('') 
-
     renderFavButton.textContent = "See your favourite movies!"
 
     const movieSave = {
-        id: $(this).parent().attr('data-imdb'),
-        title: $(this).prev().prev().prev().prev().text(),
-        rating: $(this).prev().prev().prev().text(),
-        year: $(this).prev().prev().text(),
-        posterURL: $(this).prev().attr('src')
+        imdbID: $(this).attr('data-imdb'),
+        title: $(this).parent().parent().find('.title').text(),
+        rating: $(this).parent().find('.movie-rating').text(),
+        year: $(this).parent().find('.release-year').text(),
+        posterURL: $(this).parent().parent().prev().find('.movie-poster').attr('src')
     }
 
     
@@ -230,24 +272,44 @@ $(document).on('click', '.favourite-button', function () {
     if (sessionFavourites.includes(movieSave)) {
         return;
     } else {  
-        sessionFavourites.push(movieSave);
+        const pastFavourites = JSON.parse(localStorage.getItem('movie'))
+
+        pastFavourites.push(movieSave);
+        // console.log(sessionFavourites)
+
+        // // const newSessionFavourites = sessionFavourites.concat(movieSave);
+
+        // const newSave = pastFavourites.concat(pastFavourites, sessionFavourites)
+        // console.log(newSave)
+
+        // // ERROR HERE: SETTING ITEM RATHER THAN PSUHING OLD
+
+        localStorage.setItem('movie', JSON.stringify(pastFavourites));
+
     }
     
-    localStorage.setItem('movie', JSON.stringify(sessionFavourites));
 
 
 });
 
 $(document).on('click', '.delete-button', function () {
 
-    const movieTitle = $(this).prev().prev().prev().prev().prev().prev().text()
+    const movieTitle = $(this).parent().find('.title').text()
+    console.log(movieTitle)
     const oldFavourites = JSON.parse(localStorage.getItem('movie'))
+    console.log(oldFavourites)
 
-    const removieMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
-        return i.title === movieTitle;
-    }), 1);
+    // oldFavourites.splice(oldFavourites.findIndex(function(i){
+    //     return i.title === movieTitle;
+    // }), 1);
 
-    localStorage.setItem('movie', JSON.stringify(oldFavourites));
+    oldFavourites.splice(oldFavourites.findIndex(function(i){
+        return i.title === movieTitle
+    }), 1)
+
+    console.log(oldFavourites)
+
+    // localStorage.setItem('movie', JSON.stringify(oldFavourites));
 
     $(this).parent().remove();
 
@@ -260,6 +322,7 @@ $(document).on('click', '.delete-button', function () {
 
 $(document).on('click', '.source-card', function () {
     const company = $(this).attr('data-company');
+    console.log(company)
     if (company == 'Google Play Movies') {window.open ('https://play.google.com/store/movies/')}
     if (company == 'Fetch TV') {window.open ('https://www.fetchtv.com.au/')}
     if (company == 'Apple iTunes') {window.open ('https://itunes.apple.com/')}
@@ -280,40 +343,101 @@ async function renderMovieSources(id) {
     // This doesn't work, fix later
     if (sourceList === undefined) {
         console.error("Can't find this movie :(");
+        sourcesHeader.textContent = "Sorry, we could not find any sources for this movie."
     }
 
     for (let i = 0; i < sourceList?.length; i++) {
+        sourcesHeader.textContent = "Click one of the links to be directed to their website"
+
         const sourceCompany = sourceList[i].company;
         const sourceType = sourceList[i].type;
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
-        const sourceCard = document.createElement('div');
-        sourceCard.setAttribute('data-company',sourceCompany);
-        sourceCard.setAttribute('class', 'source-card');
+        const sourceCardDiv = document.createElement('div');
+        sourceCardDiv.classList.add('card','column','mx-2', 'is-three-quarters-mobile','is-one-third-desktop','source-card','mx-1','my-1');
+        sourceCardDiv.setAttribute('data-company',sourceCompany)
 
-        const sourceTitleEl = document.createElement('h3');
-        const sourceTypeEl = document.createElement('p');
-        const sourceLogoEl = document.createElement('img');
+        const cardImageContainer = document.createElement('div');
+        cardImageContainer.classList.add('card-image');
 
-        sourceTitleEl.textContent = sourceCompany;
-        sourceTypeEl.textContent = sourceType;
-        sourceLogoEl.setAttribute("src", sourceLogo)
+        const imageFigure = document.createElement('figure');
+        imageFigure.classList.add('image','is-4by3');
 
-        sourceCard.appendChild(sourceTitleEl);
-        sourceCard.appendChild(sourceTypeEl);
-        sourceCard.appendChild(sourceLogoEl);
+        const sourceImage = document.createElement('img');
+        sourceImage.setAttribute('src',sourceLogo);
 
-        sourceContainer.appendChild(sourceCard);
+        const cardContentContainer = document.createElement('div');
+        cardContentContainer.classList.add('card-content');
+
+        const cardMediaDiv = document.createElement('div');
+        cardMediaDiv.classList.add('media');
+
+        const mediaContentDiv = document.createElement('div');
+        mediaContentDiv.classList.add('media-content');
+
+        const companyName = document.createElement('p')
+        companyName.textContent = sourceCompany;
+
+        const purchaseType = document.createElement('p');
+        purchaseType.textContent = 'Type: ' + sourceType;
+
+        sourceCardDiv.appendChild(cardImageContainer);
+        cardImageContainer.appendChild(imageFigure);
+        imageFigure.appendChild(sourceImage);
+        sourceCardDiv.appendChild(cardContentContainer);
+        cardContentContainer.appendChild(cardMediaDiv);
+        cardMediaDiv.appendChild(mediaContentDiv);
+        mediaContentDiv.appendChild(companyName);
+        mediaContentDiv.appendChild(purchaseType);
+
+        sourceContainer.appendChild(sourceCardDiv);
+
+
+
+
+        // CARD
+            // DIV CARD IMAGE
+                // FIGURE IMAGE
+                    // IMG
+            // DIV CARD CONTENT
+                // DIV MEDIA
+                    // DIV MEDIA-CONTENT
+                        // P
+                        // p
+
+
+        // const sourceCard = document.createElement('div');
+        // sourceCard.setAttribute('data-company',sourceCompany);
+        // sourceCard.setAttribute('class', 'source-card');
+
+        // const sourceTitleEl = document.createElement('h3');
+        // const sourceTypeEl = document.createElement('p');
+        // const sourceLogoEl = document.createElement('img');
+
+        // sourceTitleEl.textContent = sourceCompany;
+        // sourceTypeEl.textContent = sourceType;
+        // sourceLogoEl.setAttribute("src", sourceLogo)
+
+        // sourceCard.appendChild(sourceTitleEl);
+        // sourceCard.appendChild(sourceTypeEl);
+        // sourceCard.appendChild(sourceLogoEl);
+
+        // sourceContainer.appendChild(sourceCard);
 
 
     }
 }
 
+$('form input').keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+});
 
 //TODO: SOME SORT OF ERROR IF THERE ARE NO RESULTS
 function getMovieSources(id) {
 
-    console.log(id)
     const movieSourcesURL = 'https://api.themoviedb.org/3/movie/' + id + '/watch/providers?api_key=f2bec59cbb0f2bf3a17d6a7cc5d83a0d';
 
     return fetch(movieSourcesURL)
@@ -322,33 +446,41 @@ function getMovieSources(id) {
     
         })
         .then(function (sources) {
-            console.log(movieSourcesURL)
-            console.log(sources)
-            let australianStreaming = [];
-            let australianBuying = [];
-            const streams = sources.results.AU.flatrate;
-            const purchase = sources.results.AU.buy;
-            for (let i = 0; i < streams?.length; i++) {
-                australianStreaming[i] = {
-                    company: streams[i].provider_name,
-                    logo: streams[i].logo_path, // later add the rest of the url here
-                    type: "streaming"
+            console.log(sources.results.AU?.buy)
+            if(sources.results.AU?.buy === undefined){
+                return;
+            } else {
+                
+                let australianStreaming = [];
+                let australianBuying = [];
+                const streams = sources.results.AU.flatrate;
+                const purchase = sources.results.AU.buy;
+                for (let i = 0; i < streams?.length; i++) {
+                    australianStreaming[i] = {
+                        company: streams[i].provider_name,
+                        logo: streams[i].logo_path, // later add the rest of the url here
+                        type: "Streaming"
+                    };
                 };
-            };
-
-            for (let i = 0; i < purchase?.length; i++) {
-                australianBuying[i] = {
-                    company: purchase[i].provider_name,
-                    logo: purchase[i].logo_path, // later add the rest of the url here
-                    type: "purchase"
+    
+                for (let i = 0; i < purchase?.length; i++) {
+                    australianBuying[i] = {
+                        company: purchase[i].provider_name,
+                        logo: purchase[i].logo_path, // later add the rest of the url here
+                        type: "Purchase"
+                    };
                 };
-            };
-
-            Array.prototype.push.apply(australianBuying, australianStreaming);
-            return australianBuying;
+    
+                Array.prototype.push.apply(australianBuying, australianStreaming);
+                return australianBuying;
+            }
         });
 
 }
+
+// BUG
+    // ITEMS SAVED TO LOCAL STORAGE ARE ERASED WHEN NEW ITEMS ARE SAVED IN NEW SESSION
+    // PROBABLY RELATED TO RE-SETTING THE LOCAL STORAGE
 
 // Search planning
 

@@ -27,24 +27,33 @@
     <br>
    
     <main>
-        <!-- Search bar -->
-        <section id="search-bar">
+
+
+      <!-- Search bar -->
+      <section id="search-bar">
+            <button class="button" id="render-favourites-button">Find my favourite movies</button>
+            <button class="button is-hidden" id="clear-favourites-button">Clear favourites</button>
+
             <!-- input -->
             <h2 class="spacing">Search for your favourite movie:</h2>
             <form class="spacing">
                 <input id="search-input" class="input column is-half is-offset-one-quarter" type="text" placeholder="Your favourite movie">
+                <!-- add button to search form -->
             </form>
 
             <!-- Random movie button -->
-            <button class="button">Generate Random Movies!</button>
+            <button class="button" id="search-submit-button">Search</button>
+            <h2 class="spacing">OR</h2>
+            <button class="button" id="random-movie-button">Generate Random Movies!</button>
+
         </section>
         <br>
         <br>
       
         <!-- Card template for randomly generated movies -->
-        <section class="is-justify-content-space-around columns">
-
-            <div class="card column is-3">
+        <section class="is-justify-content-space-around columns mx-6 is-flex is-flex-wrap-wrap" id="movie-container">
+            <!-- movie card -->
+            <!-- <div class="card column is-3"> 
                 <div class="card-image">
                   <figure class="image is-4by3">
                     <img id="movie-img" src="" alt="movie image">
@@ -130,17 +139,17 @@
                     <br>
                   </div>
                 </div>
-            </div>
+            </div> -->
 
         </section>
 
 
-        <h2>You can find movie on:</h2>
+        <h2 id="sources-header" class="my-6">Your movie sources will be shown below</h2>
         <!-- <-- Card template for movie provider of choice -->
         
-        <section class="is-justify-content-space-around columns">
+        <section class="is-justify-content-space-around columns is-mobile is-flex is-flex-wrap-wrap gap-is-3" id="movie-sources-container">
 
-            <div class="card column is-3">
+            <!-- <div class="card column is-3">
                 <div class="card-image">
                   <figure class="image is-4by3">
                     <img id="movie-img" src="" alt="movie image">
@@ -189,7 +198,7 @@
                   </div>
               
                 </div>
-            </div>
+            </div> -->
         </section>
         
     
@@ -203,7 +212,10 @@
         <p>Created by Team Alice, Tim and Yoko. ©2022</p>
     </footer>
 
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.slim.js"
+    integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+    crossorigin="anonymous"></script>
     <script src="./assets/js/app.js"></script>
-
 </body>
 </html>

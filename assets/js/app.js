@@ -4,7 +4,7 @@ const movieListURL = 'https://imdb-api.com/en/API/Top250Movies/k_kxd0m127'
 
 let sessionFavourites = [];
 
-// Test container - will change
+// Giving DOM elements variables
 const movieContainer = document.getElementById('movie-container');
 const sourceContainer = document.getElementById('movie-sources-container');
 const randomMovieButton = document.getElementById('random-movie-button');
@@ -14,36 +14,46 @@ const renderFavButton = document.getElementById('render-favourites-button')
 const clearFavButton = document.getElementById('clear-favourites-button')
 const sourcesHeader = document.getElementById('sources-header');
 
+// When user clicks random movie button
 randomMovieButton.addEventListener('click', function () {
     movieContainer.innerHTML = '';
     sourceContainer.innerHTML = '';
+    // Get the movie list
     getMovieList();
 })
 
+// When the user presses the search button
 searchButton.addEventListener('click', function (event) {
     event.preventDefault();
     movieContainer.innerHTML = '';
     sourceContainer.innerHTML = '';
+    // Get their search input
     const userInput = searchInputEl.value;
+    // Get search results
     getSearchResults(userInput);
 })
 
+// When user clicks render favourites button
 renderFavButton.addEventListener('click', function (event) {
+    // prevent refresh
     event.preventDefault();
     sourceContainer.innerHTML = '';
+    // Get favourites back from storage
     const favourites = JSON.parse(localStorage.getItem('movie'))
+    // If we have favourites
     if (favourites.length != 0) {
+        // Pass them on to be rendered
         renderMovies(favourites)
         clearFavButton.classList.remove('is-hidden')
         $('.favourite-button').hide();
         // renderDeleteButton();
     } else {
+        // else notify user
         renderFavButton.textContent = "Pick a favourite movie first!"
-        console.log('No favourites')
     }
-   
 })
 
+// Button that clears local storage
 clearFavButton.addEventListener('click', function (event) {
     event.preventDefault();
     sessionFavourites = [];
@@ -52,6 +62,7 @@ clearFavButton.addEventListener('click', function (event) {
     sourceContainer.innerHTML = ''
 })
 
+// Sends user input to movie search API
 function getSearchResults(userInput) {
     const encodedInput = encodeURI(userInput);
     const movieSearchURL = "https://api.themoviedb.org/3/search/movie?api_key=f2bec59cbb0f2bf3a17d6a7cc5d83a0d&language=en-US&query="+ encodedInput +"&page=1&include_adult=false";
@@ -60,9 +71,10 @@ function getSearchResults(userInput) {
             return response.json();
         })
         .then (function(results){
+            // Creates object that can be passed to render movies
             const searchResults = results.results
             let finalResults = [];
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < searchResults.length ; i++) {
                 finalResults[i] = {
                     title: searchResults[i].title,
                     rating: searchResults[i].vote_average,
@@ -72,18 +84,17 @@ function getSearchResults(userInput) {
                 };
                 
             }
+        // pass the object to render movies
         renderMovies(finalResults);
         })
 }
 
-// async function (why?)
+// Get 3 random movies
 function getMovieList() {
-    // placeholder array for the movies
 
     // fetching top 250 movies data from IMDB API
     return fetch(movieListURL)
         .then(function (response) {
-
             return response.json();
         })
         // Loop through list 3 times, randomly picking a movie
@@ -105,7 +116,7 @@ function getMovieList() {
         });
 }
 
-
+// Dynamically renders the input of movies into card format
 async function renderMovies(movieArray) {
 
     movieContainer.innerHTML = ''
@@ -190,6 +201,7 @@ async function renderMovies(movieArray) {
     return movieArray;
 }
 
+// Renders delete button for function that no longer works :(
 function renderDeleteButton () {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Remove this movie";
@@ -204,23 +216,21 @@ function renderDeleteButton () {
 
 
 
-// FUNCTION ON CLICK OF DIV
-// TODO: Figure out how I can target the divs created by renderMovies() to make them clickable & know which movie was clicked
-
+// When I click on the sources button
 $(document).on('click', '.sources-button', function () {
-   
+    // Get the movie ID back
     const movieID = $(this).prev().attr('data-imdb');
-
+    // Send the movie ID to the source rendering function
     renderMovieSources(movieID);
 
 });
 
+// When I click the favourite button
 $(document).on('click', '.favourite-button', function () {
 
-    const saveKey = $(this).prev().attr('') 
 
     renderFavButton.textContent = "See your favourite movies!"
-
+    // Create object out of movie to store in local storage
     const movieSave = {
         imdbID: $(this).attr('data-imdb'),
         title: $(this).parent().parent().find('.title').text(),
@@ -229,15 +239,19 @@ $(document).on('click', '.favourite-button', function () {
         posterURL: $(this).parent().parent().prev().find('.movie-poster').attr('src')
     }
 
-    
+    console.log(movieSave)
 
+    // If we haven't already saved the movie
     if (sessionFavourites.includes(movieSave)) {
         return;
-    } else {  
+    } else {
+        // Get the old favourites  
         const pastFavourites = JSON.parse(localStorage.getItem('movie'))
 
+        // Add the new one
         pastFavourites.push(movieSave);
-
+        
+        // Send the items back to local storage
         localStorage.setItem('movie', JSON.stringify(pastFavourites));
 
 
@@ -245,27 +259,24 @@ $(document).on('click', '.favourite-button', function () {
 
 });
 
+// Function not working
 $(document).on('click', '.delete-button', function () {
 
     const movieTitle = $(this).prev().prev().prev().prev().prev().prev().text()
     const oldFavourites = JSON.parse(localStorage.getItem('movie'))
 
+    // attempted to find and slice the movie based on its property from local storage but it was very buggy
     const removieMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
         return i.title === movieTitle;
     }), 1);
-
 
     localStorage.setItem('movie', JSON.stringify(oldFavourites));
 
     $(this).parent().remove();
 
-})
+});
 
-
-
-
-
-
+// When we click the source card, direct to the correct company
 $(document).on('click', '.source-card', function () {
     const company = $(this).attr('data-company');
     if (company == 'Google Play Movies') {window.open ('https://play.google.com/store/movies/')}
@@ -280,6 +291,7 @@ $(document).on('click', '.source-card', function () {
     if (company == 'YouTube') {window.open ('https://www.youtube.com/feed/storefront')}
 })
 
+// Takes the movie ID and renders the movie source
 async function renderMovieSources(id) {
     console.log(id)
 

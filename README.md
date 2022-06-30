@@ -3,9 +3,9 @@
 
 ## User Story
 
-     As A movie lover
-     I want to search movies or use random movie generator
-     so THAT I can watch good movies in desired platform or add as  favourite
+    As A movie lover
+    I want to search movies or use random movie generator
+    SO THAT I can watch good movies in desired platform or add as favourite
 
 
 
@@ -16,11 +16,11 @@
 * [Technologie](#technologie)
 * [Resources](#resources)
 
-# Description
+### Description
 
 random movie generator is an application that will run in the browser and feature dynamically updated HTML and CSS. It  provides random movies or search favourite movies accordingly. The Application can add favourite movies on start page if added as favouite.
 
-# Usage
+### Usage
 
 * When the user visits the webpage--> They can press a button to generate 3 random movies or search for favourite movie
 *  When the user clicks on one of the movies--> They are greeted with options for where to watch the movie (netflix, amazon etc.)
@@ -29,7 +29,7 @@ random movie generator is an application that will run in the browser and featur
 * When the user clicks on the movie they searched for--> They are greeted with options for where to watch the movie
 * When I open the movie generator dashboard--> Then I am presented with the last searched movies
 
-# Technologie
+### Technologies
 
 * Interface AND DESIGN : html, Css, Buma
 
@@ -48,10 +48,15 @@ random movie generator is an application that will run in the browser and featur
 
 * [Miro is used for creating Wireframe](https://miro.com/welcome/Vjl1WHNnZzI0NFpiNEpvU2ZIWVVPN0dSbE03cjlLZTVodUQ3ck9MZEpoUGlXRjZXS0pvZXRoVnp0TG5FSzNJa3wzNDU4NzY0NTI3ODMzNzgxNzg0?share_link_id=858178599018 "Miro's Homepage")
 
-# Resources
+## Resources
 
 
 
-## Application made by Alice, Tim and Yoko
+
+## Links
 
 [Git hub](https://github.com/Yoko-cyer/Movie-Generator "Github Homepage")
+
+[Deployed Page](https://genuine-sorbet-0bc6ec.netlify.app/)
+
+### Application made by Alice, Tim and Yoko

@@ -293,6 +293,8 @@ async function renderMovieSources(id) {
     // This doesn't work, fix later
     if (sourceList === undefined) {
         console.error("Can't find this movie :(");
+        sourcesHeader.textContent = "Sorry, we could not find any sources for this movie."
+
     }
 
     for (let i = 0; i < sourceList?.length; i++) {
@@ -365,30 +367,35 @@ function getMovieSources(id) {
     
         })
         .then(function (sources) {
-            console.log(movieSourcesURL)
-            console.log(sources)
-            let australianStreaming = [];
-            let australianBuying = [];
-            const streams = sources.results.AU.flatrate;
-            const purchase = sources.results.AU.buy;
-            for (let i = 0; i < streams?.length; i++) {
-                australianStreaming[i] = {
-                    company: streams[i].provider_name,
-                    logo: streams[i].logo_path, // later add the rest of the url here
-                    type: "Streaming"
-                };
-            };
 
-            for (let i = 0; i < purchase?.length; i++) {
-                australianBuying[i] = {
-                    company: purchase[i].provider_name,
-                    logo: purchase[i].logo_path, // later add the rest of the url here
-                    type: "Purchase"
+            if(sources.results.AU?.buy === undefined){
+                return;
+            } else {
+                console.log(movieSourcesURL)
+                console.log(sources)
+                let australianStreaming = [];
+                let australianBuying = [];
+                const streams = sources.results.AU.flatrate;
+                const purchase = sources.results.AU.buy;
+                for (let i = 0; i < streams?.length; i++) {
+                    australianStreaming[i] = {
+                        company: streams[i].provider_name,
+                        logo: streams[i].logo_path, // later add the rest of the url here
+                        type: "Streaming"
+                    };
                 };
-            };
-
-            Array.prototype.push.apply(australianBuying, australianStreaming);
-            return australianBuying;
+    
+                for (let i = 0; i < purchase?.length; i++) {
+                    australianBuying[i] = {
+                        company: purchase[i].provider_name,
+                        logo: purchase[i].logo_path, // later add the rest of the url here
+                        type: "Purchase"
+                    };
+                };
+    
+                Array.prototype.push.apply(australianBuying, australianStreaming);
+                return australianBuying;
+            }
         });
 
 }

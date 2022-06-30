@@ -72,12 +72,12 @@ renderFavButton.addEventListener('click', function (event) {
     if (favourites.length != 0) {
         renderMovies(favourites)
         clearFavButton.classList.remove('is-hidden')
+        $('.favourite-button').hide();
         // renderDeleteButton();
     } else {
         renderFavButton.textContent = "Pick a favourite movie first!"
         console.log('No favourites')
     }
-    $('.favourite-button').hide();
    
 })
 
@@ -155,8 +155,11 @@ async function renderMovies(movieArray) {
 
         const movieID = movieArray[i].imdbID
 
+        const movieCardCol = document.createElement('div');
+        movieCardCol.classList.add('column','is-4');
+
         const movieCardDiv = document.createElement('div');
-        movieCardDiv.classList.add('card','column','is-4','movie-card');
+        movieCardDiv.classList.add('card','movie-card');
 
 
         const imageDiv = document.createElement('div');
@@ -180,7 +183,7 @@ async function renderMovies(movieArray) {
 
         const movieTitle = document.createElement('p');
         movieTitle.textContent = movieArray[i].title;
-        movieTitle.classList.add('title','is-4')
+        movieTitle.classList.add('title','is-5')
 
         const innerContentDiv = document.createElement('div')
         innerContentDiv.classList.add('content','has-text-centered')
@@ -218,7 +221,8 @@ async function renderMovies(movieArray) {
         innerContentDiv.appendChild(findSourcesButton)
         innerContentDiv.appendChild(lineBreak)
      
-        movieContainer.appendChild(movieCardDiv)                        
+        movieCardCol.appendChild(movieCardDiv)   
+        movieContainer.appendChild(movieCardCol)                     
 
     }
 
@@ -353,8 +357,11 @@ async function renderMovieSources(id) {
         const sourceType = sourceList[i].type;
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
+        sourceCardCol = document.createElement('div');
+        sourceCardCol.classList.add('column', 'is-3')
+
         const sourceCardDiv = document.createElement('div');
-        sourceCardDiv.classList.add('card','column','mx-2', 'is-three-quarters-mobile','is-one-third-desktop','source-card','mx-1','my-1');
+        sourceCardDiv.classList.add('card','mx-2','source-card');
         sourceCardDiv.setAttribute('data-company',sourceCompany)
 
         const cardImageContainer = document.createElement('div');

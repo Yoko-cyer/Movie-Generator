@@ -1,8 +1,6 @@
 
-
+// URL for imdb top 250 movies
 const movieListURL = 'https://imdb-api.com/en/API/Top250Movies/k_kxd0m127'
-
-let sessionFavourites = [];
 
 // Giving DOM elements variables
 const movieContainer = document.getElementById('movie-container');
@@ -46,7 +44,7 @@ renderFavButton.addEventListener('click', function (event) {
         renderMovies(favourites)
         clearFavButton.classList.remove('is-hidden')
         $('.favourite-button').hide();
-        // renderDeleteButton();
+        renderDeleteButton();
     } else {
         // else notify user
         renderFavButton.textContent = "Pick a favourite movie first!"
@@ -56,8 +54,8 @@ renderFavButton.addEventListener('click', function (event) {
 // Button that clears local storage
 clearFavButton.addEventListener('click', function (event) {
     event.preventDefault();
-    sessionFavourites = [];
-    localStorage.setItem('movie', JSON.stringify(sessionFavourites));
+    oldFavourites = [];
+    localStorage.setItem('movie', JSON.stringify(oldFavourites));
     movieContainer.innerHTML = ''
     sourceContainer.innerHTML = ''
 })
@@ -119,9 +117,10 @@ function getMovieList() {
 // Dynamically renders the input of movies into card format
 async function renderMovies(movieArray) {
 
+    // clears anything already in the container
     movieContainer.innerHTML = ''
     
-    // For loop that creates elements for each movie and adds them to DOM
+    // For loop that creates card element for each movie and adds them to DOM
     for (let i = 0; i < movieArray.length; i++) {
 
         const movieID = movieArray[i].imdbID
@@ -130,7 +129,7 @@ async function renderMovies(movieArray) {
         movieCardCol.classList.add('column','is-4');
 
         const movieCardDiv = document.createElement('div');
-        movieCardDiv.classList.add('card','movie-card');
+        movieCardDiv.classList.add('card','movie-card', 'has-text-centered');
 
 
         const imageDiv = document.createElement('div');
@@ -201,11 +200,11 @@ async function renderMovies(movieArray) {
     return movieArray;
 }
 
-// Renders delete button for function that no longer works :(
+// Renders delete button for function that is currently disabled as it's not working well
 function renderDeleteButton () {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Remove this movie";
-    deleteButton.setAttribute('class', 'delete-button');
+    deleteButton.classList.add('button','text-center', "is-small","is-responsive",'delete-button');
 
     const movieCards = $('.movie-card')
     console.log(movieCards.length)
@@ -215,20 +214,10 @@ function renderDeleteButton () {
 }
 
 
-
-// When I click on the sources button
-$(document).on('click', '.sources-button', function () {
-    // Get the movie ID back
-    const movieID = $(this).prev().attr('data-imdb');
-    // Send the movie ID to the source rendering function
-    renderMovieSources(movieID);
-
-});
-
 // When I click the favourite button
 $(document).on('click', '.favourite-button', function () {
-
-
+    
+    // Change text back
     renderFavButton.textContent = "See your favourite movies!"
     // Create object out of movie to store in local storage
     const movieSave = {
@@ -238,41 +227,57 @@ $(document).on('click', '.favourite-button', function () {
         year: $(this).parent().find('.release-year').text(),
         posterURL: $(this).parent().parent().prev().find('.movie-poster').attr('src')
     }
-
-    console.log(movieSave)
-
+    
+    // Gets the past favourites. If there are none, give it an empty array
+    const pastFavourites = JSON.parse(localStorage.getItem('movie')) || [];
+    
     // If we haven't already saved the movie
-    if (sessionFavourites.includes(movieSave)) {
+    if (pastFavourites.includes(movieSave)) {
         return;
     } else {
         // Get the old favourites  
-        const pastFavourites = JSON.parse(localStorage.getItem('movie')) || [];
-
+        
         // Add the new one
         pastFavourites.push(movieSave);
         
         // Send the items back to local storage
         localStorage.setItem('movie', JSON.stringify(pastFavourites));
-
-
+        
     }
-
+    
 });
 
-// Function not working
+// Function now working!!
 $(document).on('click', '.delete-button', function () {
+    
+    // Gets the movie title back from card
+    const movieTitle = $(this).parent().find('.title').text()        
 
-    const movieTitle = $(this).prev().prev().prev().prev().prev().prev().text()
+    // Gets the favourites list from local storage
     const oldFavourites = JSON.parse(localStorage.getItem('movie'))
 
-    // attempted to find and slice the movie based on its property from local storage but it was very buggy
+    // Splices the object with the defined title property
     const removeMovie = oldFavourites.splice(oldFavourites.findIndex(function(i){
         return i.title === movieTitle;
     }), 1);
 
+    // Re-sets the items to local storage
     localStorage.setItem('movie', JSON.stringify(oldFavourites));
-
+    
+    // Removes the card
     $(this).parent().remove();
+    
+});
+
+
+// When I click on the sources button
+$(document).on('click', '.sources-button', function () {
+    // Get the movie ID back
+    const movieID = $(this).prev().attr('data-imdb');
+    // Send the movie ID to the source rendering function
+    renderMovieSources(movieID);
+    // Scroll to bottom of the page smoothly
+    sourcesHeader.scrollIntoView({block:'center', behavior:'smooth'});
 
 });
 
@@ -291,6 +296,55 @@ $(document).on('click', '.source-card', function () {
     if (company == 'YouTube') {window.open ('https://www.youtube.com/feed/storefront')}
 })
 
+function getMovieSources(id) {
+
+    // Creates the URL based on the given ID
+    const movieSourcesURL = 'https://api.themoviedb.org/3/movie/' + id + '/watch/providers?api_key=f2bec59cbb0f2bf3a17d6a7cc5d83a0d';
+
+    // Gets movie data
+    return fetch(movieSourcesURL)
+        .then(function (response) {
+            return response.json();
+    
+        })
+        .then(function (sources) {
+
+            if(sources.results.AU?.buy === undefined){
+                return;
+            } else {
+                console.log(movieSourcesURL)
+                console.log(sources)
+                let australianStreaming = [];
+                let australianBuying = [];
+                const streams = sources.results.AU.flatrate;
+                const purchase = sources.results.AU.buy;
+                // Create object for each company & add to array
+                for (let i = 0; i < streams?.length; i++) {
+                    australianStreaming[i] = {
+                        company: streams[i].provider_name,
+                        logo: streams[i].logo_path, // later add the rest of the url here
+                        type: "Streaming"
+                    };
+                };
+    
+                for (let i = 0; i < purchase?.length; i++) {
+                    australianBuying[i] = {
+                        company: purchase[i].provider_name,
+                        logo: purchase[i].logo_path, // later add the rest of the url here
+                        type: "Purchase"
+                    };
+                };
+                
+                // Merge the two arrays
+                Array.prototype.push.apply(australianBuying, australianStreaming);
+
+                // return merged array
+                return australianBuying;
+            }
+        });
+
+}
+
 // Takes the movie ID and renders the movie source
 async function renderMovieSources(id) {
     console.log(id)
@@ -298,13 +352,14 @@ async function renderMovieSources(id) {
     const sourceList = await getMovieSources(id);
     sourceContainer.innerHTML = '';
 
-    // This doesn't work, fix later
+    // Notifies user if their are no sources for their movie
     if (sourceList === undefined) {
         console.error("Can't find this movie :(");
         sourcesHeader.textContent = "Sorry, we could not find any sources for this movie."
 
     }
 
+    // Creates the card for each source
     for (let i = 0; i < sourceList?.length; i++) {
        
         const sourceCardCol = document.createElement('div');
@@ -317,7 +372,7 @@ async function renderMovieSources(id) {
         const sourceLogo = 'https://image.tmdb.org/t/p/original/' + sourceList[i].logo;
 
         const sourceCardDiv = document.createElement('div');
-        sourceCardDiv.classList.add('card','source-card','my-1');
+        sourceCardDiv.classList.add('card','source-card','my-1', 'has-text-centered');
         sourceCardDiv.setAttribute('data-company',sourceCompany)
 
         const cardImageContainer = document.createElement('div');
@@ -358,55 +413,10 @@ async function renderMovieSources(id) {
 
         sourceContainer.appendChild(sourceCardCol);
 
-
     }
 }
 
 
-//TODO: SOME SORT OF ERROR IF THERE ARE NO RESULTS
-function getMovieSources(id) {
-
-    console.log(id)
-    const movieSourcesURL = 'https://api.themoviedb.org/3/movie/' + id + '/watch/providers?api_key=f2bec59cbb0f2bf3a17d6a7cc5d83a0d';
-
-    return fetch(movieSourcesURL)
-        .then(function (response) {
-            return response.json();
-    
-        })
-        .then(function (sources) {
-
-            if(sources.results.AU?.buy === undefined){
-                return;
-            } else {
-                console.log(movieSourcesURL)
-                console.log(sources)
-                let australianStreaming = [];
-                let australianBuying = [];
-                const streams = sources.results.AU.flatrate;
-                const purchase = sources.results.AU.buy;
-                for (let i = 0; i < streams?.length; i++) {
-                    australianStreaming[i] = {
-                        company: streams[i].provider_name,
-                        logo: streams[i].logo_path, // later add the rest of the url here
-                        type: "Streaming"
-                    };
-                };
-    
-                for (let i = 0; i < purchase?.length; i++) {
-                    australianBuying[i] = {
-                        company: purchase[i].provider_name,
-                        logo: purchase[i].logo_path, // later add the rest of the url here
-                        type: "Purchase"
-                    };
-                };
-    
-                Array.prototype.push.apply(australianBuying, australianStreaming);
-                return australianBuying;
-            }
-        });
-
-}
 
 
 
